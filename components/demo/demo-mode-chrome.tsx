@@ -5,6 +5,16 @@ import { Info } from "lucide-react";
 import { DEMO_NOTICE, DEMO_COMMUNITY_NAME } from "@/lib/demo";
 import { DEMO_MUTATION_EVENT } from "@/lib/demo/install-demo-fetch";
 
+const MUTATION_LABEL =
+  /\b(eliminar|borrar|editar|guardar|enviar|aprobar|rechazar|confirmar|registrar|autorizar|desautorizar|activar|desactivar|asignar|actualizar|cargar|subir|importar|generar|informar|marcar|votar|finalizar|publicar|responder|cambiar|agregar|anadir|nuevo|nueva|proponer|descargar)\b/i;
+
+function normalizeLabel(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
 export function DemoModeChrome() {
   const [toast, setToast] = useState<string | null>(null);
 
@@ -16,9 +26,67 @@ export function DemoModeChrome() {
       hideTimer = setTimeout(() => setToast(null), 2800);
     };
 
+    const stopMutation = (event: Event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    };
+
+    const onClickCapture = (event: MouseEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const input = target.closest<HTMLInputElement>("input");
+      if (
+        input &&
+        !input.hasAttribute("data-demo-allow") &&
+        ["checkbox", "file", "radio"].includes(input.type)
+      ) {
+        stopMutation(event);
+        return;
+      }
+
+      const control = target.closest<HTMLElement>(
+        "button, a, [role='switch'], [data-demo-mutation]"
+      );
+      if (!control) return;
+
+      const apiHref = control instanceof HTMLAnchorElement
+        ? control.getAttribute("href")?.startsWith("/api/")
+        : false;
+      const submitButton =
+        control instanceof HTMLButtonElement &&
+        control.type === "submit" &&
+        control.form !== null;
+      const label = normalizeLabel(
+        [
+          control.textContent || "",
+          control.getAttribute("aria-label") || "",
+          control.getAttribute("title") || "",
+        ].join(" ")
+      );
+      const explicitlyBlocked = control.hasAttribute("data-demo-mutation");
+
+      if (
+        apiHref ||
+        submitButton ||
+        explicitlyBlocked ||
+        control.getAttribute("role") === "switch" ||
+        MUTATION_LABEL.test(label)
+      ) {
+        stopMutation(event);
+      }
+    };
+
+    const onSubmitCapture = (event: SubmitEvent) => stopMutation(event);
+
     window.addEventListener(DEMO_MUTATION_EVENT, showNotice);
+    document.addEventListener("click", onClickCapture, true);
+    document.addEventListener("submit", onSubmitCapture, true);
     return () => {
       window.removeEventListener(DEMO_MUTATION_EVENT, showNotice);
+      document.removeEventListener("click", onClickCapture, true);
+      document.removeEventListener("submit", onSubmitCapture, true);
       if (hideTimer) clearTimeout(hideTimer);
     };
   }, []);

@@ -256,6 +256,7 @@ export function CommunitySearch({ canManageRoles = false }: { canManageRoles?: b
                     <div className="mt-4">
                       <label className="block text-xs font-medium text-[#1a1a1a] mb-1">Cambiar rol</label>
                       <select
+                        data-demo-mutation
                         onChange={(e) => {
                           if (e.target.value) handleRoleChange(e.target.value);
                           e.target.value = "";

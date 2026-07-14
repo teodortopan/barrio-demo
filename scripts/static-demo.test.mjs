@@ -67,13 +67,26 @@ test("API-shaped reads stay local and writes are non-persistent", () => {
   assert.match(adapter, /403/);
 });
 
+test("user mutations are stopped before component handlers run", () => {
+  const chrome = readFileSync(join(root, "components/demo/demo-mode-chrome.tsx"), "utf8");
+  assert.match(chrome, /document\.addEventListener\(["']click["'], onClickCapture, true\)/);
+  assert.match(chrome, /document\.addEventListener\(["']submit["'], onSubmitCapture, true\)/);
+  assert.match(chrome, /event\.stopImmediatePropagation\(\)/);
+  assert.match(chrome, /\["checkbox", "file", "radio"\]/);
+  assert.match(chrome, /data-demo-mutation/);
+  assert.doesNotMatch(
+    chrome,
+    /const stopMutation = \(event: Event\) => \{[\s\S]*?showNotice\(\)[\s\S]*?\n    \};/
+  );
+});
+
 test("public source does not contain production infrastructure or identifiers", () => {
   const source = sourceText();
   const forbiddenPatterns = [
     /supabase/i,
     /service[_ -]?role/i,
     /cron_secret/i,
-    /barrio[ -_]?san[ -_]?jos[eé]/i,
+    /barrio(?:\s|\/\/)*san(?:\s|\/\/)*jos[eé]/i,
     /teodortopan/i,
     /next\/(?:headers|server)/i,
     /middleware/i,

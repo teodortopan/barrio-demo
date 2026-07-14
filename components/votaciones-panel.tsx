@@ -247,6 +247,7 @@ export function VotacionesPanel() {
                     {/* Vote buttons */}
                     <div className="flex items-center gap-2 mb-2">
                       <button
+                        data-demo-mutation
                         type="button"
                         disabled={!canVote || v.closed || isVoting}
                         onClick={() => handleVote(v.id, v.my_choice, "si")}
@@ -260,6 +261,7 @@ export function VotacionesPanel() {
                         Sí · {v.votes_si}
                       </button>
                       <button
+                        data-demo-mutation
                         type="button"
                         disabled={!canVote || v.closed || isVoting}
                         onClick={() => handleVote(v.id, v.my_choice, "no")}

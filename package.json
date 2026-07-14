@@ -8,8 +8,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit",
+    "lint": "next lint --no-cache",
+    "typecheck": "tsc --noEmit --incremental false",
     "test": "node --test scripts/static-demo.test.mjs"
   },
   "dependencies": {

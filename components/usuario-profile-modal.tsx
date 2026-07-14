@@ -1013,6 +1013,7 @@ export function UsuarioProfileModal({
                                     className="flex items-center justify-between px-3 py-2 hover:bg-gray-50 group"
                                   >
                                     <button
+                                      data-demo-mutation
                                       type="button"
                                       onClick={() => handleRoleChange(role.slug)}
                                       disabled={busy}

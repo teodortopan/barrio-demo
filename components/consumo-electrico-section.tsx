@@ -454,7 +454,7 @@ export function ConsumoElectricoSection({ initialRows, readOnly: readOnlyProp = 
             </div>
             <div className="px-6 py-5">
               <label className="flex items-center gap-2.5 cursor-pointer rounded-[14px] bg-white border border-[#E9E2CE] px-3 py-2.5 hover:border-[#2d5016]/40 transition-colors">
-                <input type="checkbox" checked={downloadSaveToArchivos} onChange={(event) => setDownloadSaveToArchivos(event.target.checked)} className="w-4 h-4 text-[#2d5016] border-[#E9E2CE] rounded focus:ring-[#2d5016]/40" disabled={isDownloading} />
+                <input type="checkbox" data-demo-allow checked={downloadSaveToArchivos} onChange={(event) => setDownloadSaveToArchivos(event.target.checked)} className="w-4 h-4 text-[#2d5016] border-[#E9E2CE] rounded focus:ring-[#2d5016]/40" disabled={isDownloading} />
                 <span className="text-xs text-[#1a2617]">Guardar copia en Archivos → Consumo eléctrico</span>
               </label>
               <div className="flex gap-2 justify-end mt-5 pt-4 border-t border-dashed border-[#E9E2CE]">

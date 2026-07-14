@@ -387,6 +387,7 @@ export function PaginatedExpensesTable({
                           const effective = computeEstado(row.estado, row.vencimiento);
                           return (
                             <select
+                              data-demo-mutation={canManage ? "" : undefined}
                               value={effective}
                               onChange={(e) => onEstadoChange?.(globalIndex, e.target.value)}
                               disabled={!canManage}

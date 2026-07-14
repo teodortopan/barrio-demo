@@ -98,6 +98,7 @@ export function DownloadVecinosPdfModal({ isOpen, onClose }: DownloadVecinosPdfM
           <label className="flex items-center gap-2.5 cursor-pointer rounded-[14px] bg-white border border-[#E9E2CE] px-3 py-2.5 hover:border-[#2d5016]/40 transition-colors">
             <input
               type="checkbox"
+              data-demo-allow
               checked={saveToArchivos}
               onChange={(e) => setSaveToArchivos(e.target.checked)}
               className="w-4 h-4 text-[#2d5016] border-[#E9E2CE] rounded focus:ring-[#2d5016]/40"
