@@ -1,0 +1,491 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  /* Paint the page-bg colour onto the html/body too so iOS rubber-band scroll
+     and any sliver above the notch / below the home-indicator picks up the
+     same beige instead of the default browser white. */
+  html,
+  body {
+    background-color: #e9e7e1;
+  }
+}
+
+/* Scale everything down on mobile so content fits without horizontal scroll */
+@media (max-width: 640px) {
+  html {
+    font-size: 13px;
+  }
+}
+@media (max-width: 380px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+/* ============================================
+   Barrio Demo - sistema de diseño (sidebar + topbar)
+   Verde bosque · crema · tierra
+   Tokens prefixed --sj-* to avoid clashing with shadcn vars
+   ============================================ */
+
+:root {
+  --forest-900: #1a2617;
+  --forest-800: #22301f;
+  --forest-700: #2d3d2a;
+  --forest-600: #3a4f36;
+  --forest-500: #4d6547;
+  --forest-400: #6b8463;
+  --forest-300: #9aae93;
+  --forest-200: #c4d0bf;
+  --forest-100: #e0e6dc;
+  --forest-50:  #eef1ea;
+
+  --cream-50:  #faf6ec;
+  --cream-100: #f5efe3;
+  --cream-200: #ede4d2;
+  --cream-300: #e0d4bb;
+  --cream-400: #c9b893;
+
+  --earth-700: #6b5436;
+  --earth-600: #8b6f47;
+
+  --sj-bg:        var(--cream-100);
+  --sj-bg-elev:   #faf6ec;
+  --sj-bg-panel:  #fffdf6;
+  --sj-ink-900:   var(--forest-900);
+  --sj-ink-700:   var(--forest-700);
+  --sj-ink-500:   var(--forest-500);
+  --sj-line:      #d9d2bf;
+  --sj-line-soft: #e7dfc9;
+  --sj-radius-sm: 4px;
+  --sj-radius:    8px;
+  --sj-radius-lg: 14px;
+
+  --sj-font-sans:  "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sj-font-serif: "Instrument Serif", "Cormorant Garamond", Georgia, serif;
+  --sj-font-mono:  "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ---------- Layout shell ---------- */
+
+.sj-app {
+  min-height: 100vh;
+  /* Mobile: prefer the dynamic viewport unit so the layout grows/shrinks
+     with the browser's URL bar. `100vh` stays as a fallback for browsers
+     without dvh support. */
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+}
+
+.sj-main {
+  min-width: 0;
+  position: relative;
+}
+
+.sj-main > .min-h-screen {
+  min-height: calc(100vh - 3rem);
+  min-height: calc(100dvh - 3rem);
+}
+
+/* Make Tailwind's `min-h-screen` track the dynamic viewport everywhere it's
+   used — page wrappers in app/, route components, etc. — without having to
+   edit each file. The `vh` declaration above the override is the fallback. */
+@supports (min-height: 100dvh) {
+  .min-h-screen {
+    min-height: 100dvh;
+  }
+}
+
+/* ---------- Sidebar rail ---------- */
+
+.sj-sidebar {
+  background: #293219;
+  color: var(--cream-100);
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  height: 100vh;
+  height: 100dvh;
+  border-right: 1px solid #1a2110;
+  font-family: var(--sj-font-sans);
+}
+
+/* Mobile: collapse the rail in favour of the bottom nav (MobileBottomNav).
+   This must live after the base `.sj-sidebar` rule; otherwise the later
+   `display: block` declaration wins and the full-height green rail occupies
+   the first mobile grid row. */
+@media (max-width: 639.98px) {
+  .sj-app {
+    grid-template-columns: 1fr;
+  }
+  .sj-sidebar {
+    display: none;
+  }
+  .sj-main {
+    /* One-row mobile nav + device home-indicator inset. */
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+.sj-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* No top padding — the brand row owns the first 3rem of the rail so its
+     under-line sits exactly at the topbar's bottom edge (also 3rem). */
+  padding: 0 0 14px;
+  gap: 10px;
+  height: 100%;
+  border-right: 1px solid rgba(245, 239, 227, 0.06);
+  background: #232b14;
+  /* allow per-icon tooltips to float outside the rail */
+  overflow: visible;
+}
+
+.sj-rail-brand {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  /* Match the topbar's inner row height (h-12 = 3rem) so the under-line of
+     the brand mark and the topbar's bottom border land on the same y. */
+  height: 3rem;
+  border-bottom: 1px solid rgba(245, 239, 227, 0.08);
+  text-decoration: none;
+}
+
+.sj-rail-panels {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+  flex: 1 1 auto;
+  /* `overflow: visible` so per-icon tooltips can paint outside the 60px rail.
+     CSS clips both axes when one is set to auto/hidden, which was hiding the
+     floating label entirely. With ≤ ~10 panel/sub-icons the rail never needs
+     to scroll on any reasonable viewport. */
+  overflow: visible;
+}
+
+.sj-rail-panel-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.sj-rail-subicons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* Hairline connector from the parent panel icon down through the sub-icons,
+   so the grouping reads as a tree without indenting. */
+.sj-rail-subicons::before {
+  content: "";
+  width: 1px;
+  height: 6px;
+  background: rgba(245, 239, 227, 0.18);
+  margin-bottom: 2px;
+}
+
+.sj-rail-subicon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(245, 239, 227, 0.06);
+  border: 1px solid rgba(245, 239, 227, 0.14);
+  color: var(--cream-100);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+}
+.sj-rail-subicon:hover {
+  background: rgba(245, 239, 227, 0.14);
+  border-color: rgba(245, 239, 227, 0.28);
+  color: var(--cream-50);
+}
+.sj-rail-subicon:active {
+  transform: translateY(1px);
+}
+.sj-rail-subicon.active {
+  background: var(--cream-100);
+  color: #293219;
+  border-color: var(--cream-100);
+  box-shadow: none;
+}
+.sj-rail-subicon.active .sj-nav-icon {
+  stroke: #293219;
+}
+.sj-rail-subicon .sj-nav-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.sj-rail-icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--cream-100);
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  position: relative;
+}
+.sj-rail-icon:hover {
+  background: rgba(245, 239, 227, 0.08);
+}
+.sj-rail-icon.active {
+  background: var(--cream-100);
+  color: #293219;
+  border-color: var(--cream-100);
+}
+.sj-rail-icon.active .sj-nav-icon {
+  stroke: #293219;
+}
+
+/* Make the 4 main panel icons stand out from the cream-tinted sub-icons by
+   tinting them with the same goldish earth tone used by the "Pagar" and
+   "Informar pago" buttons in mi panel. The active panel keeps its cream pill
+   so the current page still reads clearly. */
+.sj-rail-panels .sj-rail-icon {
+  background: var(--earth-600);
+  border-color: var(--earth-700);
+  color: var(--cream-50);
+}
+.sj-rail-panels .sj-rail-icon:hover {
+  background: var(--earth-700);
+  border-color: var(--earth-700);
+  color: var(--cream-50);
+}
+.sj-rail-panels .sj-rail-icon.active {
+  background: var(--cream-100);
+  color: #293219;
+  border-color: var(--cream-100);
+}
+.sj-rail-panels .sj-rail-icon.active .sj-nav-icon {
+  stroke: #293219;
+}
+.sj-rail-icon .sj-nav-icon {
+  width: 18px;
+  height: 18px;
+}
+.sj-rail-avatar {
+  padding: 0;
+}
+.sj-rail-avatar .sj-avatar {
+  width: 32px;
+  height: 32px;
+  font-size: 11px;
+}
+
+
+/* Floating label that appears to the right of any rail icon on hover/focus.
+   Built off `data-tooltip="…"` on the trigger so we can keep it CSS-only. */
+.sj-rail-icon[data-tooltip],
+.sj-rail-subicon[data-tooltip] {
+  position: relative;
+}
+.sj-rail-icon[data-tooltip]::after,
+.sj-rail-subicon[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+  background: #1a2110;
+  color: var(--cream-50);
+  border: 1px solid rgba(245, 239, 227, 0.14);
+  border-radius: 8px;
+  padding: 5px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+  z-index: 70;
+}
+.sj-rail-icon[data-tooltip]:hover::after,
+.sj-rail-icon[data-tooltip]:focus-visible::after,
+.sj-rail-subicon[data-tooltip]:hover::after,
+.sj-rail-subicon[data-tooltip]:focus-visible::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.sj-brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--cream-100);
+  color: #293219;
+  font-weight: 600;
+  font-size: 14px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--cream-300);
+  flex-shrink: 0;
+}
+
+.sj-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--forest-600);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  color: var(--cream-50);
+  border: 1px solid var(--forest-500);
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+
+.sj-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: var(--cream-100);
+  background: transparent;
+  border: none;
+  text-align: left;
+  width: 100%;
+  font-size: 13px;
+  transition: background 0.15s;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+}
+.sj-nav-item:hover {
+  background: rgba(245, 239, 227, 0.06);
+}
+.sj-nav-item.active {
+  background: var(--forest-700);
+  color: var(--cream-50);
+  box-shadow: inset 2px 0 0 var(--cream-300);
+}
+
+.sj-nav-icon {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+  flex-shrink: 0;
+}
+
+.sj-nav-count {
+  margin-left: auto;
+  font-size: 11px;
+  background: rgba(245, 239, 227, 0.1);
+  padding: 1px 6px;
+  border-radius: 10px;
+  color: var(--cream-200);
+}
+.sj-nav-item.active .sj-nav-count {
+  background: var(--forest-500);
+  color: var(--cream-50);
+}
+
+/* ---------- Shared icon buttons ---------- */
+
+.sj-icon-btn {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  background: var(--sj-bg-panel);
+  border: 1px solid var(--sj-line);
+  border-radius: 8px;
+  color: var(--sj-ink-700);
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+}
+.sj-icon-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+}
+.sj-icon-btn:hover {
+  background: var(--cream-50);
+}
