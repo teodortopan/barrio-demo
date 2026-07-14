@@ -2,6 +2,8 @@
 
 Static portfolio demo of a neighborhood-management application. The interface is intentionally kept in Spanish because it represents the product's original market and domain language.
 
+**Live demo:** [barrio-demo.pages.dev](https://barrio-demo.pages.dev/)
+
 > Every person, lot, payment, complaint, visit, document, and phone number shown here is fictional demo data.
 
 ![Barrio Demo administration and finance view](public/screenshots/admin-ingresos.png)
@@ -62,6 +64,8 @@ No license is provided for this repository.
 # Barrio Demo - Español
 
 Demo estática para portfolio de una aplicación de administración barrial. La interfaz se mantiene en español porque representa el mercado y el lenguaje de dominio originales del producto.
+
+**Demo online:** [barrio-demo.pages.dev](https://barrio-demo.pages.dev/)
 
 > Todas las personas, lotes, pagos, consultas, visitas, documentos y números de teléfono que aparecen acá son datos ficticios de demostración.
 
