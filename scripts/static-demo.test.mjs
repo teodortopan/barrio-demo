@@ -67,6 +67,16 @@ test("resident payment history is available from fictional demo data", () => {
   assert.match(apiSeed, /DEMO_PAYMENT_REQUESTS/);
 });
 
+test("navigation highlights only the most specific active destination", () => {
+  const sidebar = readFileSync(join(root, "components/sidebar.tsx"), "utf8");
+  const mobile = readFileSync(join(root, "components/mobile-bottom-nav.tsx"), "utf8");
+  assert.match(sidebar, /panelSelected && \(activeHref === null \|\| activeHref === def\.defaultHref\)/);
+  assert.match(sidebar, /aria-current=\{panelActive \? "page" : undefined\}/);
+  assert.match(sidebar, /aria-current=\{subActive \? "page" : undefined\}/);
+  assert.match(mobile, /\.filter\(\(item\) => item\.href !== PANEL_DEFS\[activePanel\]\.href\)/);
+  assert.match(mobile, /activeSubHref === null \|\| activeSubHref === def\.href/);
+});
+
 test("API-shaped reads stay local and writes are non-persistent", () => {
   const adapter = readFileSync(join(root, "lib/demo/install-demo-fetch.ts"), "utf8");
   assert.match(adapter, /url\.pathname\.startsWith\(["']\/api\//);

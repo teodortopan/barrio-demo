@@ -105,16 +105,15 @@ export function MobileBottomNav({ adminVisibility }: MobileBottomNavProps) {
 
   const renderItems = useMemo<NavRenderItem[]>(() => {
     const activeIndex = accessiblePanels.indexOf(activePanel);
-    const subpageItems: NavRenderItem[] =
-      activeSubpages.length > 1
-        ? activeSubpages.map((item) => ({
-            kind: "subpage",
-            key: `${activePanel}-${item.href}`,
-            label: item.label,
-            href: item.href,
-            Icon: item.Icon,
-          }))
-        : [];
+    const subpageItems: NavRenderItem[] = activeSubpages
+      .filter((item) => item.href !== PANEL_DEFS[activePanel].href)
+      .map((item) => ({
+        kind: "subpage",
+        key: `${activePanel}-${item.href}`,
+        label: item.label,
+        href: item.href,
+        Icon: item.Icon,
+      }));
 
     const panelItems: NavRenderItem[] = accessiblePanels.map((panel) => ({
       kind: "panel",
@@ -169,7 +168,9 @@ export function MobileBottomNav({ adminVisibility }: MobileBottomNavProps) {
           const p = item.panel;
           const def = PANEL_DEFS[p];
           const Icon = def.Icon;
-          const active = p === activePanel;
+          const active =
+            p === activePanel &&
+            (activeSubHref === null || activeSubHref === def.href);
           return (
             <li key={p} className="min-w-[4.2rem] flex-1">
               <Link

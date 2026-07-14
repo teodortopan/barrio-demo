@@ -340,8 +340,10 @@ export function Sidebar({
         <div className="sj-rail-panels">
           {accessiblePanels.map((p) => {
             const def = PANELS[p];
-            const active = p === activePanel;
-            const panelSections = active
+            const panelSelected = p === activePanel;
+            const panelActive =
+              panelSelected && (activeHref === null || activeHref === def.defaultHref);
+            const panelSections = panelSelected
               ? p === "admin"
                 ? sections
                 : def.sections
@@ -354,7 +356,8 @@ export function Sidebar({
                 <Link
                   href={def.defaultHref}
                   prefetch
-                  className={"sj-rail-icon" + (active ? " active" : "")}
+                  className={"sj-rail-icon" + (panelActive ? " active" : "")}
+                  aria-current={panelActive ? "page" : undefined}
                   aria-label={def.pillLabel}
                   data-tooltip={def.pillLabel}
                   data-tour-id={tourIdForHref(def.defaultHref)}
@@ -371,6 +374,7 @@ export function Sidebar({
                           href={item.href}
                           prefetch
                           className={"sj-rail-subicon" + (subActive ? " active" : "")}
+                          aria-current={subActive ? "page" : undefined}
                           aria-label={item.label}
                           data-tooltip={item.label}
                           data-tour-id={tourIdForHref(item.href)}
