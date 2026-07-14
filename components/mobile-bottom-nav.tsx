@@ -146,6 +146,10 @@ export function MobileBottomNav({ adminVisibility }: MobileBottomNavProps) {
             const active = item.href === activeSubHref;
             return (
               <li key={item.key} className="shrink-0 flex items-center py-2">
+                <span
+                  aria-hidden="true"
+                  className="-ml-1 h-px w-3 shrink-0 bg-[#faf6ec]/20"
+                />
                 <Link
                   href={item.href}
                   prefetch
