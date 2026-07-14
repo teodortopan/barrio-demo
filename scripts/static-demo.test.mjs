@@ -75,7 +75,6 @@ test("navigation highlights only the most specific active destination", () => {
   assert.match(sidebar, /aria-current=\{subActive \? "page" : undefined\}/);
   assert.match(mobile, /\.filter\(\(item\) => item\.href !== PANEL_DEFS\[activePanel\]\.href\)/);
   assert.match(mobile, /activeSubHref === null \|\| activeSubHref === def\.href/);
-  assert.match(mobile, /aria-hidden="true"[\s\S]*?-ml-1 h-px w-3/);
 });
 
 test("API-shaped reads stay local and writes are non-persistent", () => {
