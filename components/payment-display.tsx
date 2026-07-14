@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Banknote, Smartphone, X, Upload as UploadIcon, Eye, EyeOff, ShieldCheck, Wallet } from "lucide-react";
+import { Banknote, Smartphone, X, Upload as UploadIcon, Eye, EyeOff, ShieldCheck, Wallet, History } from "lucide-react";
 import type { VecinoData } from "@/lib/demo/types";
 import { ACCOUNT_DATA_UPDATED_EVENT, type AccountDataUpdatedDetail } from "@/lib/account-events";
+import { PaymentStatusModal } from "@/components/payment-status-modal";
 
 interface PaymentDisplayProps {
   initialPrices?: {
@@ -68,6 +69,7 @@ export function PaymentDisplay({ initialPrices, initialVecino }: PaymentDisplayP
   const [loading, setLoading] = useState(!initialPrices);
   const [isComingSoonModalOpen, setIsComingSoonModalOpen] = useState(false);
   const [isInformarPagoModalOpen, setIsInformarPagoModalOpen] = useState(false);
+  const [isPaymentStatusModalOpen, setIsPaymentStatusModalOpen] = useState(false);
 
   useEffect(() => {
     if (initialPrices) return;
@@ -182,6 +184,18 @@ export function PaymentDisplay({ initialPrices, initialVecino }: PaymentDisplayP
           >
             <UploadIcon className="w-3.5 h-3.5" strokeWidth={1.5} /> Informar pago
           </button>
+          <button
+            type="button"
+            onClick={() => setIsPaymentStatusModalOpen(true)}
+            className="inline-flex items-center gap-2 rounded-[14px] px-3.5 py-2 text-sm font-medium border transition-colors hover:opacity-90"
+            style={{
+              background: "transparent",
+              color: "var(--cream-100)",
+              borderColor: "var(--forest-300)",
+            }}
+          >
+            <History className="w-3.5 h-3.5" strokeWidth={1.5} /> Mis pagos
+          </button>
         </div>
       </section>
 
@@ -243,6 +257,13 @@ export function PaymentDisplay({ initialPrices, initialVecino }: PaymentDisplayP
             </div>
           </div>
         </div>
+      )}
+
+      {isPaymentStatusModalOpen && (
+        <PaymentStatusModal
+          isOpen={isPaymentStatusModalOpen}
+          onClose={() => setIsPaymentStatusModalOpen(false)}
+        />
       )}
 
       {/* Informar Pago Modal */}

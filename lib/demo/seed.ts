@@ -460,6 +460,59 @@ export const DEMO_PAYMENT_PRICES: PaymentPricesData = {
   vencido: "$ 320.000",
 };
 
+export const DEMO_PAYMENT_REQUESTS = [
+  {
+    id: "demo-payment-5",
+    payment_method: "transferencia" as const,
+    amount: 285000,
+    file_url: null,
+    status: "approved" as const,
+    admin_notes: null,
+    created_at: "2026-07-08T14:20:00.000Z",
+    reviewed_at: "2026-07-09T12:10:00.000Z",
+  },
+  {
+    id: "demo-payment-4",
+    payment_method: "efectivo" as const,
+    amount: 285000,
+    file_url: null,
+    status: "approved" as const,
+    admin_notes: null,
+    created_at: "2026-06-05T15:40:00.000Z",
+    reviewed_at: "2026-06-05T18:05:00.000Z",
+  },
+  {
+    id: "demo-payment-3",
+    payment_method: "transferencia" as const,
+    amount: 270000,
+    file_url: null,
+    status: "rejected" as const,
+    admin_notes: "El comprobante no permitía verificar el importe.",
+    created_at: "2026-05-04T13:15:00.000Z",
+    reviewed_at: "2026-05-04T19:30:00.000Z",
+  },
+  {
+    id: "demo-payment-2",
+    payment_method: "transferencia" as const,
+    amount: 285000,
+    file_url: null,
+    status: "approved" as const,
+    admin_notes: null,
+    created_at: "2026-04-05T16:25:00.000Z",
+    reviewed_at: "2026-04-06T11:45:00.000Z",
+  },
+  {
+    id: "demo-payment-1",
+    payment_method: "efectivo" as const,
+    amount: 285000,
+    file_url: null,
+    status: "approved" as const,
+    admin_notes: null,
+    created_at: "2026-03-05T17:10:00.000Z",
+    reviewed_at: "2026-03-05T20:00:00.000Z",
+  },
+];
+
 // ── Biblioteca / archivos (file links inert) ────────────────────────
 export const DEMO_BIBLIOTECA: BibliotecaFile[] = [
   { document_type: "plano", filename: "Plano de los lotes (ejemplo).pdf", file_url: "", updated_at: isoDaysAgo(40) },

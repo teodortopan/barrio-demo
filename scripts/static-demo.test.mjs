@@ -58,6 +58,15 @@ test("all intended demo routes are present", () => {
   for (const route of routeFiles) assert.equal(existsSync(join(root, route)), true, `${route} is missing`);
 });
 
+test("resident payment history is available from fictional demo data", () => {
+  const paymentDisplay = readFileSync(join(root, "components/payment-display.tsx"), "utf8");
+  const apiSeed = readFileSync(join(root, "lib/demo/api-seed.ts"), "utf8");
+  assert.match(paymentDisplay, /PaymentStatusModal/);
+  assert.match(paymentDisplay, /> Mis pagos/);
+  assert.match(apiSeed, /case ["']\/api\/payments\/my-requests["']/);
+  assert.match(apiSeed, /DEMO_PAYMENT_REQUESTS/);
+});
+
 test("API-shaped reads stay local and writes are non-persistent", () => {
   const adapter = readFileSync(join(root, "lib/demo/install-demo-fetch.ts"), "utf8");
   assert.match(adapter, /url\.pathname\.startsWith\(["']\/api\//);

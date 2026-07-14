@@ -25,6 +25,7 @@ import {
   DEMO_CONSUMO,
   DEMO_CUOTA_DETAILS,
   DEMO_PAYMENT_PRICES,
+  DEMO_PAYMENT_REQUESTS,
   DEMO_BIBLIOTECA,
   DEMO_ASAMBLEA,
 } from "./seed";
@@ -112,6 +113,8 @@ export function demoGetBody(pathname: string, searchParams: URLSearchParams): Re
       return { currentPayment: demoCurrentPayment(), allPrices: DEMO_PAYMENT_PRICES };
     case "/api/payments/pending":
       return { paymentRequests: [] };
+    case "/api/payments/my-requests":
+      return { requests: DEMO_PAYMENT_REQUESTS, hasPendingPayment: false };
     case "/api/admin/profiles":
       return { profiles: DEMO_PROFILES };
     case "/api/admin/pending-users":
